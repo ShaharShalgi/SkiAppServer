@@ -1,0 +1,6 @@
+@SkiAppServer_HostAddress = http://localhost:5279
+
+GET {{SkiAppServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
