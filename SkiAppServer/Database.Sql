@@ -107,6 +107,10 @@ insert into Condition Values('Declined')
 insert into Requests Values(2, 1, 2)
 SELECT * from Tips
 
+--EF Code
+/*
+scaffold-DbContext "Server = (localdb)\MSSQLLocalDB;Initial Catalog=Ski_DB;User ID=AdminLogin;Password=shalgon101;" Microsoft.EntityFrameworkCore.SqlServer -OutPutDir Models -Context SkiDBContext -DataAnnotations -force
+*/
 
 
 
