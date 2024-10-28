@@ -5,7 +5,7 @@
         public string Username { get; set; } = null; 
         public string Pass { get; set; } = null;
         public string Gender { get; set; } = null;
-        public string Email { get; set; } = null;
+        public string Email { get; set; } 
         public VisitorDTO() { }
         public VisitorDTO(Models.Visitor modelVisitor) 
         {
