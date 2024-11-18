@@ -17,7 +17,7 @@ public partial class SkiDBContext : DbContext
 
     public virtual DbSet<Condition> Conditions { get; set; }
 
-    public virtual DbSet<Proffesional> Proffesionals { get; set; }
+    public virtual DbSet<Professional> Proffesionals { get; set; }
 
     public virtual DbSet<Request> Requests { get; set; }
 
@@ -40,7 +40,7 @@ public partial class SkiDBContext : DbContext
             entity.HasKey(e => e.StatusId).HasName("PK__Conditio__C8EE20439969E473");
         });
 
-        modelBuilder.Entity<Proffesional>(entity =>
+        modelBuilder.Entity<Professional>(entity =>
         {
             entity.HasKey(e => e.UserId).HasName("PK__Proffesi__1788CCACC9D23457");
 

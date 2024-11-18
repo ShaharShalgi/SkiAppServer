@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SkiAppServer.Models;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace SkiAppServer.Controllers
 {
@@ -17,6 +19,30 @@ namespace SkiAppServer.Controllers
             this.context = context;
             this.webHostEnvironment = env;
         }
+        [HttpPost("register")]
+        public IActionResult Register([FromBody] DTO.VisitorDTO userDto)
+        {
+            try
+            {
+                HttpContext.Session.Clear(); //Logout any previous login attempt
+
+                //Create model user class
+                Models.Visitor modelsUser = userDto.GetModels();
+
+                context.Visitors.Add(modelsUser);
+                context.SaveChanges();
+
+                //User was added!
+                DTO.VisitorDTO dtoUser = new DTO.VisitorDTO(modelsUser);
+                return Ok(dtoUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
     }
 }
 //sfdsfdsfdsf

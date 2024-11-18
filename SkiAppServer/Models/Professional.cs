@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SkiAppServer.Models;
 
-public partial class Proffesional
+public partial class Professional
 {
     [Key]
     [Column("UserID")]
@@ -26,10 +26,10 @@ public partial class Proffesional
     public string? Txt { get; set; }
 
     [ForeignKey("TypeId")]
-    [InverseProperty("Proffesionals")]
+    [InverseProperty("Professionals")]
     public virtual TypeUser? Type { get; set; }
 
     [ForeignKey("UserId")]
-    [InverseProperty("Proffesional")]
+    [InverseProperty("Professional")]
     public virtual Visitor User { get; set; } = null!;
 }

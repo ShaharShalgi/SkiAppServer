@@ -14,7 +14,19 @@
             this.Gender = modelVisitor.Gender;
             this.Email = modelVisitor.Email;
         }
-        
+        public Models.Visitor GetModels()
+        {
+            Models.Visitor modelsUser = new Models.Visitor()
+            {
+                
+                Username = this.Username,               
+                Email = this.Email,
+                Pass = this.Pass,
+                Gender = this.Gender
+            };
+
+            return modelsUser;
+        }
 
     }
 }
