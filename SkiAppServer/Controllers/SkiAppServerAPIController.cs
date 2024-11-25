@@ -42,6 +42,8 @@ namespace SkiAppServer.Controllers
             }
 
         }
+    }
+}
 //        [HttpPost("login")]
 //        public IActionResult Login([FromBody] DTO.LoginInfo loginDto)
 //        {
