@@ -105,7 +105,7 @@ insert into Condition Values('Pending')
 insert into Condition Values('Approved')
 insert into Condition Values('Declined')
 insert into Requests Values(2, 1, 2)
-SELECT * from Tips
+SELECT * from Visitors
 
 --EF Code
 /*

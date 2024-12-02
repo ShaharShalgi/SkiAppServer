@@ -1,4 +1,5 @@
-﻿namespace SkiAppServer.DTO
+﻿using SkiAppServer.Models;
+namespace SkiAppServer.DTO
 {
     public class VisitorDTO
     {
@@ -22,7 +23,8 @@
                 Username = this.Username,               
                 Email = this.Email,
                 Pass = this.Pass,
-                Gender = this.Gender
+                Gender = this.Gender,
+                
             };
 
             return modelsUser;

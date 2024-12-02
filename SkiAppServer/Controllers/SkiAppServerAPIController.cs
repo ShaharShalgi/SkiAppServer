@@ -26,10 +26,13 @@ namespace SkiAppServer.Controllers
             {
                 HttpContext.Session.Clear(); //Logout any previous login attempt
 
+                
+
                 //Create model user class
                 Models.Visitor modelsUser = userDto.GetModels();
 
-                context.Visitors.Add(modelsUser);
+                context.Entry(modelsUser).State = EntityState.Added;
+                //context.Visitors.Add(modelsUser);
                 context.SaveChanges();
 
                 //User was added!
@@ -42,39 +45,37 @@ namespace SkiAppServer.Controllers
             }
 
         }
+        [HttpPost("Login")]
+        public IActionResult Login([FromBody] DTO.VisitorDTO loginDto)
+        {
+            try
+            {
+                HttpContext.Session.Clear(); //Logout any previous login attempt
+
+                //Get model user class from DB with matching password
+                Models.Visitor? modelsUser = context.GetVisitor(loginDto.Pass);
+
+                //Check if user exist for this password match, if not return Access Denied (Error 403) 
+                if (modelsUser == null || modelsUser.Pass != loginDto.Pass)
+                {
+                    return Unauthorized();
+                }
+
+                //Login suceed! now mark login in session memory!
+                HttpContext.Session.SetString("loggedInUser", modelsUser.Username);
+
+                DTO.VisitorDTO dtoUser = new DTO.VisitorDTO(modelsUser);
+
+                return Ok(dtoUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
     }
 }
-//        [HttpPost("login")]
-//        public IActionResult Login([FromBody] DTO.LoginInfo loginDto)
-//        {
-//            try
-//            {
-//                HttpContext.Session.Clear(); //Logout any previous login attempt
-
-//                //Get model user class from DB with matching email. 
-//                Models.AppUser? modelsUser = context.GetUser(loginDto.Email);
-
-//                //Check if user exist for this email and if password match, if not return Access Denied (Error 403) 
-//                if (modelsUser == null || modelsUser.UserPassword != loginDto.Password)
-//                {
-//                    return Unauthorized();
-//                }
-
-//                //Login suceed! now mark login in session memory!
-//                HttpContext.Session.SetString("loggedInUser", modelsUser.UserEmail);
-
-//                DTO.AppUser dtoUser = new DTO.AppUser(modelsUser);
-//                dtoUser.ProfileImagePath = GetProfileImageVirtualPath(dtoUser.Id);
-//                return Ok(dtoUser);
-//            }
-//            catch (Exception ex)
-//            {
-//                return BadRequest(ex.Message);
-//            }
-
-//        }
 
 
-//    }
-//}
-//sfdsfdsfdsf
