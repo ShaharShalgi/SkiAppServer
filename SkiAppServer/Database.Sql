@@ -28,7 +28,7 @@
     TypeName NVARCHAR(15)
     );
     --יצירת טבלת מנהלים\מדריכים
-    CREATE TABLE Proffesionals (
+    CREATE TABLE Professionals (
     UserID INT PRIMARY KEY,
     Rating FLOAT,
     TypeID INT,
@@ -98,7 +98,7 @@ INSERT INTO Visitors Values('Shahar Shalgi', 'shalgon202', 'Male', 'shshalgi@gma
 INSERT INTO Visitors Values('Tami Freiman', 'tami123', 'Female', 'freimantami@gmail.com')
 INSERT into TypeUser Values('Coach')
 INSERT into TypeUser Values('Manager')
-insert into Proffesionals Values(1, 0, 1, 'France', 50, 'Birthday ski call it ski BD')
+insert into Professionals Values(1, 0, 1, 'France', 50, 'Birthday ski call it ski BD')
 insert into Tips Values('Hard', 'Curling', 'HOW TO CURL IN 30 MINUTES (99% WILL NOT SURVIVE) (GONE WRONG)', 'idc', 'https://www.youtube.com/watch?v=Jxs8Mt3M8nA')
 insert into REVIEWS Values(1, 2, 1, 'BEST COACH EVER!!!!111!')
 insert into Condition Values('Pending')

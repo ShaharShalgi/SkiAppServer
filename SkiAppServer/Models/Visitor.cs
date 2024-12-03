@@ -24,7 +24,7 @@ public partial class Visitor
     public string? Email { get; set; }
 
     [InverseProperty("User")]
-    public virtual Professional? Proffesional { get; set; }
+    public virtual Proffesional? Proffesional { get; set; }
 
     [InverseProperty("Reciever")]
     public virtual ICollection<Request> RequestRecievers { get; set; } = new List<Request>();
