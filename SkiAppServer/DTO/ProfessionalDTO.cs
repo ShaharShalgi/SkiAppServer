@@ -18,7 +18,7 @@
         public string? Txt { get; set; }
         public ProfessionalDTO() { }
 
-        public ProfessionalDTO(Models.Proffesional modelProfessional)
+        public ProfessionalDTO(Models.Professional modelProfessional)
         {
             this.UserId = modelProfessional.UserId;
             this.Rating = modelProfessional.Rating;

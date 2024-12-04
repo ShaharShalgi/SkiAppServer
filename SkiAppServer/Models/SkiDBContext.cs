@@ -17,7 +17,7 @@ public partial class SkiDBContext : DbContext
 
     public virtual DbSet<Condition> Conditions { get; set; }
 
-    public virtual DbSet<Proffesional> Proffesionals { get; set; }
+    public virtual DbSet<Professional> Professionals { get; set; }
 
     public virtual DbSet<Request> Requests { get; set; }
 
@@ -37,25 +37,25 @@ public partial class SkiDBContext : DbContext
     {
         modelBuilder.Entity<Condition>(entity =>
         {
-            entity.HasKey(e => e.StatusId).HasName("PK__Conditio__C8EE2043CC4F9749");
+            entity.HasKey(e => e.StatusId).HasName("PK__Conditio__C8EE2043BA4B07C9");
         });
 
-        modelBuilder.Entity<Proffesional>(entity =>
+        modelBuilder.Entity<Professional>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Proffesi__1788CCAC30EB9E77");
+            entity.HasKey(e => e.UserId).HasName("PK__Professi__1788CCACEA89448F");
 
             entity.Property(e => e.UserId).ValueGeneratedNever();
 
-            entity.HasOne(d => d.Type).WithMany(p => p.Proffesionals).HasConstraintName("FK__Proffesio__TypeI__29572725");
+            entity.HasOne(d => d.Type).WithMany(p => p.Professionals).HasConstraintName("FK__Professio__TypeI__29572725");
 
-            entity.HasOne(d => d.User).WithOne(p => p.Proffesional)
+            entity.HasOne(d => d.User).WithOne(p => p.Professional)
                 .OnDelete(DeleteBehavior.ClientSetNull)
-                .HasConstraintName("FK__Proffesio__UserI__286302EC");
+                .HasConstraintName("FK__Professio__UserI__286302EC");
         });
 
         modelBuilder.Entity<Request>(entity =>
         {
-            entity.HasKey(e => e.RequestId).HasName("PK__Requests__33A8519A62E4E7D7");
+            entity.HasKey(e => e.RequestId).HasName("PK__Requests__33A8519A3E7D7BD5");
 
             entity.HasOne(d => d.Reciever).WithMany(p => p.RequestRecievers).HasConstraintName("FK__Requests__Reciev__33D4B598");
 
@@ -66,7 +66,7 @@ public partial class SkiDBContext : DbContext
 
         modelBuilder.Entity<Review>(entity =>
         {
-            entity.HasKey(e => e.ReviewId).HasName("PK__REVIEWS__74BC79AE09E0055F");
+            entity.HasKey(e => e.ReviewId).HasName("PK__REVIEWS__74BC79AE8534B4DA");
 
             entity.HasOne(d => d.Reciever).WithMany(p => p.ReviewRecievers).HasConstraintName("FK__REVIEWS__Recieve__2E1BDC42");
 
@@ -75,17 +75,17 @@ public partial class SkiDBContext : DbContext
 
         modelBuilder.Entity<Tip>(entity =>
         {
-            entity.HasKey(e => e.TipId).HasName("PK__Tips__2DB1A1A8A3F86FF1");
+            entity.HasKey(e => e.TipId).HasName("PK__Tips__2DB1A1A8D0C93194");
         });
 
         modelBuilder.Entity<TypeUser>(entity =>
         {
-            entity.HasKey(e => e.TypeId).HasName("PK__TypeUser__516F0395421B6431");
+            entity.HasKey(e => e.TypeId).HasName("PK__TypeUser__516F03953D0FEBD3");
         });
 
         modelBuilder.Entity<Visitor>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Visitors__1788CC4CCF04279F");
+            entity.HasKey(e => e.UserId).HasName("PK__Visitors__1788CC4CB365AF6A");
         });
 
         OnModelCreatingPartial(modelBuilder);

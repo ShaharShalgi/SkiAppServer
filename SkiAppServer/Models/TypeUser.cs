@@ -17,5 +17,5 @@ public partial class TypeUser
     public string? TypeName { get; set; }
 
     [InverseProperty("Type")]
-    public virtual ICollection<Proffesional> Proffesionals { get; set; } = new List<Proffesional>();
+    public virtual ICollection<Professional> Professionals { get; set; } = new List<Professional>();
 }
