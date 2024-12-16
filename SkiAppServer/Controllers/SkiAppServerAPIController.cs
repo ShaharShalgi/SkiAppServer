@@ -45,7 +45,7 @@ namespace SkiAppServer.Controllers
             }
 
         }
-        [HttpPost("Login")]
+        [HttpPost("login")]
         public IActionResult Login([FromBody] DTO.VisitorDTO loginDto)
         {
             try
