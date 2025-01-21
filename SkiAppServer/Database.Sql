@@ -36,7 +36,7 @@
     Price FLOAT,
     Txt NVARCHAR(300),
     --Img VARBINARY(MAX),
-    FOREIGN KEY (UserID) REFERENCES Visitors(UserID),
+    FOREIGN KEY (UserID) REFERENCES Visitors(UserId),
     FOREIGN KEY (TypeID) REFERENCES TypeUser(TypeID)
     );
    
@@ -105,7 +105,9 @@ insert into Condition Values('Pending')
 insert into Condition Values('Approved')
 insert into Condition Values('Declined')
 insert into Requests Values(2, 1, 2)
-SELECT * from Visitors
+SELECT * from Professionals
+select * from visitors
+delete Professionals
 
 --EF Code
 /*

@@ -27,5 +27,19 @@
             this.Price = modelProfessional.Price;
             this.Txt = modelProfessional.Txt;
         }
+        public Models.Professional GetModels()
+        {
+            Models.Professional modelsPro = new Models.Professional()
+            {
+                UserId = this.UserId,
+                Rating = this.Rating,
+                TypeId = this.TypeId,
+                Loc = this.Loc,
+                Price = this.Price,
+                Txt = this.Txt
+
+            };
+            return modelsPro;
+        }
     }
 }

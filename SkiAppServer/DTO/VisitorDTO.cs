@@ -7,6 +7,7 @@ namespace SkiAppServer.DTO
         public string Pass { get; set; } = null;
         public string? Gender { get; set; } = null;
         public string? Email { get; set; } = null;
+        public int UserId { get; set; }
         public VisitorDTO() { }
         public VisitorDTO(Models.Visitor modelVisitor) 
         {
@@ -14,12 +15,13 @@ namespace SkiAppServer.DTO
             this.Pass = modelVisitor.Pass;
             this.Gender = modelVisitor.Gender;
             this.Email = modelVisitor.Email;
+            this.UserId = UserId;
         }
         public Models.Visitor GetModels()
         {
             Models.Visitor modelsUser = new Models.Visitor()
             {
-                
+                UserId = this.UserId,
                 Username = this.Username,               
                 Email = this.Email,
                 Pass = this.Pass,

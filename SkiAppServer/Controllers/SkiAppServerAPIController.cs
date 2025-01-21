@@ -45,6 +45,32 @@ namespace SkiAppServer.Controllers
             }
 
         }
+        [HttpPost("registerPro")]
+        public IActionResult RegisterPro([FromBody] DTO.ProfessionalDTO proDto)
+        {
+            try
+            {
+                HttpContext.Session.Clear(); //Logout any previous login attempt
+
+
+
+                //Create model user class
+                Models.Professional modelsPro = proDto.GetModels();
+
+                context.Entry(modelsPro).State = EntityState.Added;
+                //context.Visitors.Add(modelsUser);
+                context.SaveChanges();
+
+                //User was added!
+                DTO.ProfessionalDTO dtoUser = new DTO.ProfessionalDTO(modelsPro);
+                return Ok(dtoUser);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
         [HttpPost("login")]
         public IActionResult Login([FromBody] DTO.VisitorDTO loginDto)
         {
