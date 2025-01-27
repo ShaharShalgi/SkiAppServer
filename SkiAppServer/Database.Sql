@@ -107,6 +107,7 @@ insert into Condition Values('Declined')
 insert into Requests Values(2, 1, 2)
 SELECT * from Professionals
 select * from visitors
+Select * from TypeUser
 
 
 --EF Code

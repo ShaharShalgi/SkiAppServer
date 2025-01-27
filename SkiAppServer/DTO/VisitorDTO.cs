@@ -15,7 +15,7 @@ namespace SkiAppServer.DTO
             this.Pass = modelVisitor.Pass;
             this.Gender = modelVisitor.Gender;
             this.Email = modelVisitor.Email;
-            this.UserId = UserId;
+            this.UserId = modelVisitor.UserId;
         }
         public Models.Visitor GetModels()
         {
