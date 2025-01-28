@@ -23,6 +23,8 @@ public partial class Visitor
     [StringLength(50)]
     public string? Email { get; set; }
 
+    public bool? IsPro { get; set; }
+
     [InverseProperty("User")]
     public virtual Professional? Professional { get; set; }
 

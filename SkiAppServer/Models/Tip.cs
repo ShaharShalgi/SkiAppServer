@@ -12,8 +12,7 @@ public partial class Tip
     [Column("TipID")]
     public int TipId { get; set; }
 
-    [StringLength(15)]
-    public string? Difficulty { get; set; }
+    public int? Difficulty { get; set; }
 
     [StringLength(15)]
     public string? Topic { get; set; }

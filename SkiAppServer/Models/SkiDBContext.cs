@@ -37,12 +37,12 @@ public partial class SkiDBContext : DbContext
     {
         modelBuilder.Entity<Condition>(entity =>
         {
-            entity.HasKey(e => e.StatusId).HasName("PK__Conditio__C8EE2043BA4B07C9");
+            entity.HasKey(e => e.StatusId).HasName("PK__Conditio__C8EE20432C1013C3");
         });
 
         modelBuilder.Entity<Professional>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Professi__1788CCACEA89448F");
+            entity.HasKey(e => e.UserId).HasName("PK__Professi__1788CCAC180ABEBB");
 
             entity.Property(e => e.UserId).ValueGeneratedNever();
 
@@ -55,7 +55,7 @@ public partial class SkiDBContext : DbContext
 
         modelBuilder.Entity<Request>(entity =>
         {
-            entity.HasKey(e => e.RequestId).HasName("PK__Requests__33A8519A3E7D7BD5");
+            entity.HasKey(e => e.RequestId).HasName("PK__Requests__33A8519A4D54A356");
 
             entity.HasOne(d => d.Reciever).WithMany(p => p.RequestRecievers).HasConstraintName("FK__Requests__Reciev__33D4B598");
 
@@ -66,7 +66,7 @@ public partial class SkiDBContext : DbContext
 
         modelBuilder.Entity<Review>(entity =>
         {
-            entity.HasKey(e => e.ReviewId).HasName("PK__REVIEWS__74BC79AE8534B4DA");
+            entity.HasKey(e => e.ReviewId).HasName("PK__REVIEWS__74BC79AEE9FCC744");
 
             entity.HasOne(d => d.Reciever).WithMany(p => p.ReviewRecievers).HasConstraintName("FK__REVIEWS__Recieve__2E1BDC42");
 
@@ -75,17 +75,17 @@ public partial class SkiDBContext : DbContext
 
         modelBuilder.Entity<Tip>(entity =>
         {
-            entity.HasKey(e => e.TipId).HasName("PK__Tips__2DB1A1A8D0C93194");
+            entity.HasKey(e => e.TipId).HasName("PK__Tips__2DB1A1A88B007D36");
         });
 
         modelBuilder.Entity<TypeUser>(entity =>
         {
-            entity.HasKey(e => e.TypeId).HasName("PK__TypeUser__516F03953D0FEBD3");
+            entity.HasKey(e => e.TypeId).HasName("PK__TypeUser__516F039595E67D80");
         });
 
         modelBuilder.Entity<Visitor>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Visitors__1788CC4CB365AF6A");
+            entity.HasKey(e => e.UserId).HasName("PK__Visitors__1788CC4CF6123523");
         });
 
         OnModelCreatingPartial(modelBuilder);

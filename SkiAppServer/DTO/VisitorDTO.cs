@@ -8,6 +8,7 @@ namespace SkiAppServer.DTO
         public string? Gender { get; set; } = null;
         public string? Email { get; set; } = null;
         public int UserId { get; set; }
+        public bool? IsPro { get; set; } = null;
         public VisitorDTO() { }
         public VisitorDTO(Models.Visitor modelVisitor) 
         {
@@ -16,6 +17,7 @@ namespace SkiAppServer.DTO
             this.Gender = modelVisitor.Gender;
             this.Email = modelVisitor.Email;
             this.UserId = modelVisitor.UserId;
+            this.IsPro = modelVisitor.IsPro;
         }
         public Models.Visitor GetModels()
         {
@@ -26,6 +28,7 @@ namespace SkiAppServer.DTO
                 Email = this.Email,
                 Pass = this.Pass,
                 Gender = this.Gender,
+                IsPro = this.IsPro
                 
             };
 

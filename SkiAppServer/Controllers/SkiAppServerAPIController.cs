@@ -100,6 +100,19 @@ namespace SkiAppServer.Controllers
             }
 
         }
+        [HttpGet("getTips")]
+        public IActionResult GetTips()
+        {
+            try
+            {
+                List<Models.Tip> listRestaurants = context.GetAllTips();
+                return Ok(listRestaurants);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }
