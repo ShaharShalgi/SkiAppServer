@@ -15,5 +15,9 @@ namespace SkiAppServer.Models
         {
             return this.Tips.ToList();
         }
+        public List<Tip>? GetTipsByDifficulty(int diff)
+        {
+            return this.Tips.Where(u => u.Difficulty == diff).ToList();
+        }
     }
 }

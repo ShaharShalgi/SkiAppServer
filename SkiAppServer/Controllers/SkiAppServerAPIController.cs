@@ -114,6 +114,20 @@ namespace SkiAppServer.Controllers
             }
         }
 
+        [HttpGet("sortTips")] 
+        public IActionResult SortTips(int diff)
+        {
+            try
+            {
+                List<Models.Tip> sortedTips = context.GetTipsByDifficulty(diff);
+                return Ok(sortedTips);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
     }
 }
 
