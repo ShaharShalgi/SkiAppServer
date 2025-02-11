@@ -127,6 +127,41 @@ namespace SkiAppServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPost("updateUser")]      
+        public async Task<IActionResult> UpdateProfile([FromBody] DTO.VisitorDTO userDto)
+        {
+            if (userDto == null)
+            {
+                return BadRequest("User data is null");
+            }
+
+            // חיפוש המשתמש לפי Id
+            var user = await context.Visitors.FindAsync(userDto.UserId);
+
+            if (user == null)
+            {
+                return NotFound($"User with ID {userDto.UserId} not found");
+            }
+
+            // עדכון השדות של המשתמש
+            user.Username = userDto.Username;
+            user.Pass = userDto.Pass;
+            user.Gender = userDto.Gender;
+            user.Email = userDto.Email;
+
+            try
+            {
+                // שמירת השינויים למסד הנתונים
+                await context.SaveChangesAsync();
+                return Ok(new { message = "Profile updated successfully" });
+            }
+            catch (Exception ex)
+            {
+                // טיפול בשגיאות
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred", error = ex.Message });
+            }
+
+        }
 
     }
 }
