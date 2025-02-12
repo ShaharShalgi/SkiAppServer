@@ -105,8 +105,21 @@ namespace SkiAppServer.Controllers
         {
             try
             {
-                List<Models.Tip> listRestaurants = context.GetAllTips();
-                return Ok(listRestaurants);
+                List<Models.Tip> listTips = context.GetAllTips();
+                return Ok(listTips);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("getPro")]
+        public IActionResult GetPro(int Id)
+        {
+            try
+            {
+               Professional Pro = context.GetPro(Id);
+                return Ok(Pro);
             }
             catch (Exception ex)
             {
@@ -148,6 +161,41 @@ namespace SkiAppServer.Controllers
             user.Pass = userDto.Pass;
             user.Gender = userDto.Gender;
             user.Email = userDto.Email;
+
+            try
+            {
+                // שמירת השינויים למסד הנתונים
+                await context.SaveChangesAsync();
+                return Ok(new { message = "Profile updated successfully" });
+            }
+            catch (Exception ex)
+            {
+                // טיפול בשגיאות
+                return StatusCode(StatusCodes.Status500InternalServerError, new { message = "An error occurred", error = ex.Message });
+            }
+
+        }
+        [HttpPost("updatePro")]
+        public async Task<IActionResult> UpdateProfessional([FromBody] DTO.ProfessionalDTO userDto)
+        {
+            if (userDto == null)
+            {
+                return BadRequest("User data is null");
+            }
+
+            // חיפוש המשתמש לפי Id
+            var user = await context.Professionals.FindAsync(userDto.UserId);
+
+            if (user == null)
+            {
+                return NotFound($"User with ID {userDto.UserId} not found");
+            }
+
+            // עדכון השדות של המשתמש
+            user.Price = userDto.Price;
+            user.Txt = userDto.Txt;
+            user.Loc = userDto.Loc;
+            user.TypeId = userDto.TypeId;
 
             try
             {

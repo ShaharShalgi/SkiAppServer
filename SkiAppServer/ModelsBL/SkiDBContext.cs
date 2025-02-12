@@ -19,5 +19,9 @@ namespace SkiAppServer.Models
         {
             return this.Tips.Where(u => u.Difficulty == diff).ToList();
         }
+        public Professional? GetPro(int Id)
+        {
+            return this.Professionals.Where(u => u.UserId == Id).FirstOrDefault();
+        }
     }
 }
