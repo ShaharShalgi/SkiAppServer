@@ -17,11 +17,15 @@ public partial class SkiDBContext : DbContext
 
     public virtual DbSet<Condition> Conditions { get; set; }
 
+    public virtual DbSet<PostPhoto> PostPhotos { get; set; }
+
     public virtual DbSet<Professional> Professionals { get; set; }
 
     public virtual DbSet<Request> Requests { get; set; }
 
     public virtual DbSet<Review> Reviews { get; set; }
+
+    public virtual DbSet<ReviewPhoto> ReviewPhotos { get; set; }
 
     public virtual DbSet<Tip> Tips { get; set; }
 
@@ -37,12 +41,19 @@ public partial class SkiDBContext : DbContext
     {
         modelBuilder.Entity<Condition>(entity =>
         {
-            entity.HasKey(e => e.StatusId).HasName("PK__Conditio__C8EE20432C1013C3");
+            entity.HasKey(e => e.StatusId).HasName("PK__Conditio__C8EE2043B1064208");
+        });
+
+        modelBuilder.Entity<PostPhoto>(entity =>
+        {
+            entity.HasKey(e => e.PhotoId).HasName("PK__PostPhot__21B7B5E2C0CD6B58");
+
+            entity.HasOne(d => d.User).WithMany(p => p.PostPhotos).HasConstraintName("FK__PostPhoto__UserI__38996AB5");
         });
 
         modelBuilder.Entity<Professional>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Professi__1788CCAC180ABEBB");
+            entity.HasKey(e => e.UserId).HasName("PK__Professi__1788CCAC8BE4BCB1");
 
             entity.Property(e => e.UserId).ValueGeneratedNever();
 
@@ -55,7 +66,7 @@ public partial class SkiDBContext : DbContext
 
         modelBuilder.Entity<Request>(entity =>
         {
-            entity.HasKey(e => e.RequestId).HasName("PK__Requests__33A8519A4D54A356");
+            entity.HasKey(e => e.RequestId).HasName("PK__Requests__33A8519A785E17AC");
 
             entity.HasOne(d => d.Reciever).WithMany(p => p.RequestRecievers).HasConstraintName("FK__Requests__Reciev__33D4B598");
 
@@ -66,26 +77,33 @@ public partial class SkiDBContext : DbContext
 
         modelBuilder.Entity<Review>(entity =>
         {
-            entity.HasKey(e => e.ReviewId).HasName("PK__REVIEWS__74BC79AEE9FCC744");
+            entity.HasKey(e => e.ReviewId).HasName("PK__REVIEWS__74BC79AE405104EB");
 
             entity.HasOne(d => d.Reciever).WithMany(p => p.ReviewRecievers).HasConstraintName("FK__REVIEWS__Recieve__2E1BDC42");
 
             entity.HasOne(d => d.Sender).WithMany(p => p.ReviewSenders).HasConstraintName("FK__REVIEWS__SenderI__2F10007B");
         });
 
+        modelBuilder.Entity<ReviewPhoto>(entity =>
+        {
+            entity.HasKey(e => e.PhotoId).HasName("PK__ReviewPh__21B7B5E29B269DB1");
+
+            entity.HasOne(d => d.Review).WithMany(p => p.ReviewPhotos).HasConstraintName("FK__ReviewPho__Revie__3B75D760");
+        });
+
         modelBuilder.Entity<Tip>(entity =>
         {
-            entity.HasKey(e => e.TipId).HasName("PK__Tips__2DB1A1A88B007D36");
+            entity.HasKey(e => e.TipId).HasName("PK__Tips__2DB1A1A88B39E0E3");
         });
 
         modelBuilder.Entity<TypeUser>(entity =>
         {
-            entity.HasKey(e => e.TypeId).HasName("PK__TypeUser__516F039595E67D80");
+            entity.HasKey(e => e.TypeId).HasName("PK__TypeUser__516F03952720EEB1");
         });
 
         modelBuilder.Entity<Visitor>(entity =>
         {
-            entity.HasKey(e => e.UserId).HasName("PK__Visitors__1788CC4CF6123523");
+            entity.HasKey(e => e.UserId).HasName("PK__Visitors__1788CC4C988A6D4D");
         });
 
         OnModelCreatingPartial(modelBuilder);

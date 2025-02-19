@@ -13,6 +13,8 @@
         public string? Loc { get; set; }
 
         public double? Price { get; set; }
+       
+        public int? RaterNum { get; set; }
 
 
         public string? Txt { get; set; }
@@ -26,6 +28,7 @@
             this.Loc = modelProfessional.Loc;
             this.Price = modelProfessional.Price;
             this.Txt = modelProfessional.Txt;
+            this.RaterNum = modelProfessional.RaterNum;
         }
         public Models.Professional GetModels()
         {
@@ -36,7 +39,8 @@
                 TypeId = this.TypeId,
                 Loc = this.Loc,
                 Price = this.Price,
-                Txt = this.Txt
+                Txt = this.Txt,
+                RaterNum = this.RaterNum
 
             };
             return modelsPro;

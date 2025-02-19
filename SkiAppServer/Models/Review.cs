@@ -28,6 +28,9 @@ public partial class Review
     [InverseProperty("ReviewRecievers")]
     public virtual Visitor? Reciever { get; set; }
 
+    [InverseProperty("Review")]
+    public virtual ICollection<ReviewPhoto> ReviewPhotos { get; set; } = new List<ReviewPhoto>();
+
     [ForeignKey("SenderId")]
     [InverseProperty("ReviewSenders")]
     public virtual Visitor? Sender { get; set; }

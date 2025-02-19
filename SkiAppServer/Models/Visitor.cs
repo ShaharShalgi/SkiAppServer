@@ -26,6 +26,9 @@ public partial class Visitor
     public bool? IsPro { get; set; }
 
     [InverseProperty("User")]
+    public virtual ICollection<PostPhoto> PostPhotos { get; set; } = new List<PostPhoto>();
+
+    [InverseProperty("User")]
     public virtual Professional? Professional { get; set; }
 
     [InverseProperty("Reciever")]

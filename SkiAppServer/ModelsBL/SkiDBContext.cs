@@ -11,6 +11,10 @@ namespace SkiAppServer.Models
         {
             return this.Visitors.Where(u => u.Pass == password).FirstOrDefault();
         }
+        public Visitor? GetVisitorById(int Id)
+        {
+            return this.Visitors.Where(u => u.UserId == Id).FirstOrDefault();
+        }
         public List<Tip>? GetAllTips()
         {
             return this.Tips.ToList();

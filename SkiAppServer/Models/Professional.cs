@@ -25,6 +25,8 @@ public partial class Professional
     [StringLength(300)]
     public string? Txt { get; set; }
 
+    public int? RaterNum { get; set; }
+
     [ForeignKey("TypeId")]
     [InverseProperty("Professionals")]
     public virtual TypeUser? Type { get; set; }

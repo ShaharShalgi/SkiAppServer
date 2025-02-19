@@ -36,6 +36,7 @@
     Loc NVARCHAR(40),
     Price FLOAT,
     Txt NVARCHAR(300),
+    RaterNum INT,
     --Img VARBINARY(MAX),
     FOREIGN KEY (UserID) REFERENCES Visitors(UserId),
     FOREIGN KEY (TypeID) REFERENCES TypeUser(TypeID)
@@ -82,6 +83,20 @@
    FOREIGN KEY (StatusID) REFERENCES Condition(StatusID)
 
    );
+   CREATE TABLE PostPhotos (
+    PhotoId INT PRIMARY KEY identity,        -- מפתח ראשי
+    UserID INT,
+    FOREIGN KEY (UserID) REFERENCES Visitors(UserID),       -- מפתח משני
+    
+
+)
+ CREATE TABLE ReviewPhotos (
+    PhotoId INT PRIMARY KEY identity,        -- מפתח ראשי
+    ReviewID INT,
+    FOREIGN KEY (ReviewID) REFERENCES REVIEWS(ReviewID),       -- מפתח משני
+    
+
+)
    
 
 
@@ -99,7 +114,7 @@ INSERT INTO Visitors Values('Shahar Shalgi', 'shalgon202', 'Male', 'shshalgi@gma
 INSERT INTO Visitors Values('Tami Freiman', 'tami123', 'Female', 'freimantami@gmail.com', 1)
 INSERT into TypeUser Values('Coach')
 INSERT into TypeUser Values('Manager')
-insert into Professionals Values(1, 0, 1, 'France', 50, 'Birthday ski call it ski BD')
+insert into Professionals Values(1, 0, 1, 'France', 50, 'Birthday ski call it ski BD',0)
 insert into Tips Values('3', 'Curling', 'HOW TO CURL IN 30 MINUTES (99% WILL NOT SURVIVE) (GONE WRONG)', 'idc', 'https://www.youtube.com/embed/Jxs8Mt3M8nA')
 insert into Tips Values('4', 'Falling', 'HOW TO CRACK YOUR BUTT', 'BOOM SHAKALAK BOOM BOOM', 'https://www.youtube.com/embed/dQw4w9WgXcQ')
 insert into REVIEWS Values(1, 2, 1, 'BEST COACH EVER!!!!111!')
