@@ -9,7 +9,8 @@ namespace SkiAppServer.DTO
         public string? Email { get; set; } = null;
         public int UserId { get; set; }
         public bool? IsPro { get; set; } = null;
-        public List<PostPhotoDTO> Photos { get; set; }
+        public string PhotoURL { get; set; } = "";
+        public List<PostPhotoDTO>?  Photos { get; set; } 
         public VisitorDTO() { }
         public VisitorDTO(Models.Visitor modelVisitor) 
         {
@@ -19,6 +20,7 @@ namespace SkiAppServer.DTO
             this.Email = modelVisitor.Email;
             this.UserId = modelVisitor.UserId;
             this.IsPro = modelVisitor.IsPro;
+       
         }
         public Models.Visitor GetModels()
         {

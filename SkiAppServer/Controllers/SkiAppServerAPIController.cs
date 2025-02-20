@@ -126,6 +126,19 @@ namespace SkiAppServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("getUser")]
+        public IActionResult GetUser(int Id)
+        {
+            try
+            {
+                Visitor User = context.GetVisitorById(Id);
+                return Ok(User);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpGet("sortTips")] 
         public IActionResult SortTips(int diff)
@@ -161,6 +174,7 @@ namespace SkiAppServer.Controllers
             user.Pass = userDto.Pass;
             user.Gender = userDto.Gender;
             user.Email = userDto.Email;
+            user.IsPro = userDto.IsPro;
 
             try
             {
@@ -255,7 +269,7 @@ namespace SkiAppServer.Controllers
                 }
 
                 //Build path in the web root (better to a specific folder under the web root
-                string filePath = $"{this.webHostEnvironment.WebRootPath}\\toilets\\{photoRecord.PhotoId}{extention}";
+                string filePath = $"{this.webHostEnvironment.WebRootPath}\\posts\\{photoRecord.PhotoId}{extention}";
 
                 using (var stream = System.IO.File.Create(filePath))
                 {

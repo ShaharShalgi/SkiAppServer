@@ -126,7 +126,7 @@ SELECT * from Professionals
 select * from visitors
 Select * from Tips
 
-select * from TypeUser
+select * from PostPhotos
 
 
 
