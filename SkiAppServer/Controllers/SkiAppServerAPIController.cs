@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SkiAppServer.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
 
 namespace SkiAppServer.Controllers
 {
@@ -32,6 +33,7 @@ namespace SkiAppServer.Controllers
                 Models.Visitor modelsUser = userDto.GetModels();
 
                 context.Entry(modelsUser).State = EntityState.Added;
+                
                 //context.Visitors.Add(modelsUser);
                 context.SaveChanges();
 
@@ -289,10 +291,82 @@ namespace SkiAppServer.Controllers
 
             }
 
+
             poster.PostPhotos.Add(photoRecord);
             DTO.VisitorDTO dtoVisitor = new DTO.VisitorDTO(poster, this.webHostEnvironment.WebRootPath);
             return Ok(dtoVisitor);
         }
+        [HttpPost("RemovePostImage")]
+        public async Task <IActionResult> RemovePostImage([FromBody] DTO.PostPhotoDTO postDTO)
+        {
+            try
+            {
+                HttpContext.Session.Clear(); //Logout any previous login attempt
+
+
+
+                //Create model user class
+                Models.PostPhoto modelsPost = postDTO.GetModels();
+
+                context.Remove(modelsPost).State = EntityState.Deleted;
+
+                //context.Visitors.Add(modelsUser);
+                context.SaveChanges();
+
+                
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+        [HttpGet("GetPostImages")]      
+        public IActionResult GetPostImages(int posterId)
+        {
+            try
+            {
+                List<Models.PostPhoto> photos = context.GetPostPhotos(posterId);
+                List<string> paths = new List<string>();
+                foreach(Models.PostPhoto p in photos)
+                {
+                    paths.Add(GetPostImageVirtualPath(p.PhotoId));
+                }
+
+                return Ok(paths);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        private string GetPostImageVirtualPath(int photoID)
+        {
+            string virtualPath = $"/posts/{photoID}";
+            string path = $"{this.webHostEnvironment.WebRootPath}\\posts\\{photoID}.png";
+            if (System.IO.File.Exists(path))
+            {
+                virtualPath += ".png";
+            }
+            else
+            {
+                path = $"{this.webHostEnvironment.WebRootPath}\\posts\\{photoID}.jpg";
+                if (System.IO.File.Exists(path))
+                {
+                    virtualPath += ".jpg";
+                }
+                else
+                {
+                    virtualPath = $"/posts/default.png";
+                }
+            }
+
+            return virtualPath;
+        }
+
+
+
 
         //Helper functions
 

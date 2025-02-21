@@ -23,6 +23,10 @@ namespace SkiAppServer.Models
         {
             return this.Tips.Where(u => u.Difficulty == diff).ToList();
         }
+        public List<PostPhoto>? GetPostPhotos(int posterId)
+        {
+            return this.PostPhotos.Where(u => u.UserId == posterId).ToList();
+        }
         public Professional? GetPro(int Id)
         {
             return this.Professionals.Where(u => u.UserId == Id).FirstOrDefault();

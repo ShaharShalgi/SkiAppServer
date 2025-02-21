@@ -15,6 +15,9 @@
         public double? Price { get; set; }
        
         public int? RaterNum { get; set; }
+        
+        public bool? Post { get; set; }
+
 
 
         public string? Txt { get; set; }
@@ -29,6 +32,7 @@
             this.Price = modelProfessional.Price;
             this.Txt = modelProfessional.Txt;
             this.RaterNum = modelProfessional.RaterNum;
+            this.Post = modelProfessional.Post;
         }
         public Models.Professional GetModels()
         {
@@ -40,7 +44,8 @@
                 Loc = this.Loc,
                 Price = this.Price,
                 Txt = this.Txt,
-                RaterNum = this.RaterNum
+                RaterNum = this.RaterNum,
+                Post = this.Post
 
             };
             return modelsPro;

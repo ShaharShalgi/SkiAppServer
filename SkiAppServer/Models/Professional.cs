@@ -27,6 +27,8 @@ public partial class Professional
 
     public int? RaterNum { get; set; }
 
+    public bool? Post { get; set; }
+
     [ForeignKey("TypeId")]
     [InverseProperty("Professionals")]
     public virtual TypeUser? Type { get; set; }

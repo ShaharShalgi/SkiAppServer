@@ -13,5 +13,17 @@
             this.UserID = modelPost.UserId;
 
         }
+        public Models.PostPhoto GetModels()
+        {
+            Models.PostPhoto modelsUser = new Models.PostPhoto()
+            {
+                UserId = this.UserID,
+               PhotoId = this.PhotoId,
+               
+
+            };
+
+            return modelsUser;
+        }
     }
 }
