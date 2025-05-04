@@ -122,12 +122,14 @@ insert into REVIEWS Values(1, 2, 1, 'BEST COACH EVER!!!!111!')
 insert into Condition Values('Pending')
 insert into Condition Values('Approved')
 insert into Condition Values('Declined')
+INSERT INTO Visitors Values('1', '1', 'Male', 'shshalgi@gmail.com', 0)
+
 insert into Requests Values(2, 1, 2)
 SELECT * from Professionals
 select * from visitors
 Select * from Tips
 
-select * from PostPhotos
+select * from TypeUser
 
 
 

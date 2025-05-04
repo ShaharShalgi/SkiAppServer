@@ -115,6 +115,46 @@ namespace SkiAppServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("getCoaches")]
+        public IActionResult GetCoaches()
+        {
+            try
+            {
+                List<Models.Professional> listPosts = context.GetAllCoaches();
+                return Ok(listPosts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("getAllUsers")]
+        public IActionResult GetAllUsers()
+        {
+            try
+            {
+                List<Models.Visitor> visitors = context.GetAllVisitors();
+                return Ok(visitors);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("getAllPostPhotos")]
+        public IActionResult GetAllPostPhotos()
+        {
+            try
+            {
+                List<Models.PostPhoto> postPhotos = context.GetAllPostPhotos();
+                return Ok(postPhotos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet("getPro")]
         public IActionResult GetPro(int Id)
         {
@@ -212,6 +252,7 @@ namespace SkiAppServer.Controllers
             user.Txt = userDto.Txt;
             user.Loc = userDto.Loc;
             user.TypeId = userDto.TypeId;
+            user.Post = userDto.Post;
 
             try
             {

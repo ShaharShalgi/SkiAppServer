@@ -19,6 +19,18 @@ namespace SkiAppServer.Models
         {
             return this.Tips.ToList();
         }
+        public List<Professional>? GetAllCoaches()
+        {
+            return this.Professionals.Where(u => u.TypeId == 1 && u.Post == true).ToList();
+        }
+        public List<Visitor>? GetAllVisitors()
+        {
+            return this.Visitors.ToList();
+        }
+        public List<PostPhoto>? GetAllPostPhotos()
+        {
+            return this.PostPhotos.ToList();
+        }
         public List<Tip>? GetTipsByDifficulty(int diff)
         {
             return this.Tips.Where(u => u.Difficulty == diff).ToList();
