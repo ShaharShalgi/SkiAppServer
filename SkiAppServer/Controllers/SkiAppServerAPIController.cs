@@ -406,6 +406,31 @@ namespace SkiAppServer.Controllers
             return virtualPath;
         }
 
+        [HttpGet("GetPostPath")]
+        public string GetPostPath(int photoID)
+        {
+            string virtualPath = $"{photoID}";
+            string path = $"{this.webHostEnvironment.WebRootPath}\\posts\\{photoID}.png";
+            if (System.IO.File.Exists(path))
+            {
+                virtualPath += ".png";
+            }
+            else
+            {
+                path = $"{this.webHostEnvironment.WebRootPath}\\posts\\{photoID}.jpg";
+                if (System.IO.File.Exists(path))
+                {
+                    virtualPath += ".jpg";
+                }
+                else
+                {
+                    virtualPath = $"/posts/default.png";
+                }
+            }
+
+            return virtualPath;
+        }
+
 
 
 
