@@ -4,6 +4,8 @@ using SkiAppServer.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System.Text.Json;
+using SkiAppServer.DTO;
 
 namespace SkiAppServer.Controllers
 {
@@ -73,6 +75,40 @@ namespace SkiAppServer.Controllers
             }
 
         }
+        [HttpPost("UploadReview")]
+        public IActionResult UploadReview([FromBody] DTO.ReviewDTO reviewDto)
+        {
+            try
+            {
+                //Check if user is logged in
+                string? user = HttpContext.Session.GetString("loggedInUser");
+
+                if (user == null || user == "")
+                {
+                    return Unauthorized();
+                }
+
+                //Create model user class
+                Models.Review modelsReview = reviewDto.GetModels();
+
+               
+
+                context.Reviews.Add(modelsReview);
+                context.SaveChanges();
+
+                //Toilet was added!
+
+                string photosLocalPath = webHostEnvironment.WebRootPath;
+                DTO.ReviewDTO dtoReview = new DTO.ReviewDTO(modelsReview, photosLocalPath);
+                string json = JsonSerializer.Serialize(dtoReview);
+                return Ok(dtoReview);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
         [HttpPost("login")]
         public IActionResult Login([FromBody] DTO.VisitorDTO loginDto)
         {
@@ -128,6 +164,45 @@ namespace SkiAppServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("getResorts")]
+        public IActionResult GetResorts()
+        {
+            try
+            {
+                List<Models.Professional> listPosts = context.GetAllResorts();
+                return Ok(listPosts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("getReviewsByProID")]
+        public IActionResult GetReviewsPro(int Id)
+        {
+            try
+            {
+                List<Models.Review> listReviews = context.GetReviewsByProID(Id);
+                return Ok(listReviews);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("getReviewByID")]
+        public IActionResult GetReview(int Id)
+        {
+            try
+            {
+                Models.Review review = context.GetReviewById(Id);
+                return Ok(review);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
         [HttpGet("getAllUsers")]
         public IActionResult GetAllUsers()
@@ -149,6 +224,19 @@ namespace SkiAppServer.Controllers
             {
                 List<Models.PostPhoto> postPhotos = context.GetAllPostPhotos();
                 return Ok(postPhotos);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("getAllReviewPhotos")]
+        public IActionResult GetAllReviewPhotos()
+        {
+            try
+            {
+                List<Models.ReviewPhoto> reviewPhotos = context.GetAllReviewPhotos();
+                return Ok(reviewPhotos);
             }
             catch (Exception ex)
             {
@@ -195,6 +283,119 @@ namespace SkiAppServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        //[HttpGet("sortPricesCoachASC")]
+        //public IActionResult SortPricesCoachASC()
+        //{
+        //    try
+        //    {
+        //        List<Models.Professional> sortedPrices = context.GetPostByPriceCoachASC();
+        //        return Ok(sortedPrices);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+        //[HttpGet("sortPricesCoachDESC")]
+        //public IActionResult SortPricesCoachDESC()
+        //{
+        //    try
+        //    {
+        //        List<Models.Professional> sortedPrices = context.GetPostByPriceCoachDESC();
+        //        return Ok(sortedPrices);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+        //[HttpGet("sortRatingsCoachDESC")]
+        //public IActionResult SortRatingsCoachDESC()
+        //{
+        //    try
+        //    {
+        //        List<Models.Professional> sortedRatings = context.GetPostByRatingCoachDESC();
+        //        return Ok(sortedRatings);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+        //[HttpGet("sortRatingsCoachASC")]
+        //public IActionResult SortRatingsCoachASC()
+        //{
+        //    try
+        //    {
+        //        List<Models.Professional> sortedRatings = context.GetPostByRatingCoachASC();
+        //        return Ok(sortedRatings);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return BadRequest(ex.Message);
+        //    }
+        //}
+        [HttpGet("sortCoachesByPriceAndRating")]
+        public IActionResult SortCoachesByPriceAndRating(bool priceAscending, bool ratingAscending)
+        {
+            try
+            {
+                List<Models.Professional> coaches = context.GetAllCoaches();
+
+                // Sort by both criteria - first by price, then by rating
+                if (priceAscending)
+                {
+                    if (ratingAscending)
+                        coaches = coaches.OrderBy(c => c.Price).ThenBy(c => c.Rating).ToList();
+                    else
+                        coaches = coaches.OrderBy(c => c.Price).ThenByDescending(c => c.Rating).ToList();
+                }
+                else
+                {
+                    if (ratingAscending)
+                        coaches = coaches.OrderByDescending(c => c.Price).ThenBy(c => c.Rating).ToList();
+                    else
+                        coaches = coaches.OrderByDescending(c => c.Price).ThenByDescending(c => c.Rating).ToList();
+                }
+
+                return Ok(coaches);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("sortResortsByPriceAndRating")]
+        public IActionResult SortResortsByPriceAndRating(bool priceAscending, bool ratingAscending)
+        {
+            try
+            {
+                List<Models.Professional> resorts = context.GetAllResorts();
+
+                // Sort by both criteria - first by price, then by rating
+                if (priceAscending)
+                {
+                    if (ratingAscending)
+                        resorts = resorts.OrderBy(c => c.Price).ThenBy(c => c.Rating).ToList();
+                    else
+                        resorts = resorts.OrderBy(c => c.Price).ThenByDescending(c => c.Rating).ToList();
+                }
+                else
+                {
+                    if (ratingAscending)
+                        resorts = resorts.OrderByDescending(c => c.Price).ThenBy(c => c.Rating).ToList();
+                    else
+                        resorts = resorts.OrderByDescending(c => c.Price).ThenByDescending(c => c.Rating).ToList();
+                }
+
+                return Ok(resorts);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
         [HttpPost("updateUser")]      
         public async Task<IActionResult> UpdateProfile([FromBody] DTO.VisitorDTO userDto)
         {
@@ -253,6 +454,8 @@ namespace SkiAppServer.Controllers
             user.Loc = userDto.Loc;
             user.TypeId = userDto.TypeId;
             user.Post = userDto.Post;
+            user.RaterNum = userDto.RaterNum;
+            user.Rating = userDto.Rating;
 
             try
             {
@@ -268,6 +471,75 @@ namespace SkiAppServer.Controllers
 
         }
 
+        [HttpPost("UploadReviewImage")]
+        public async Task<IActionResult> UploadReviewImageAsync(IFormFile file, [FromQuery] int reviewId)
+        {
+            //Check if who is logged in
+            string? username = HttpContext.Session.GetString("loggedInUser");
+            if (string.IsNullOrEmpty(username))
+            {
+                return Unauthorized("User is not logged in");
+            }
+
+            //Get model pro class from DB with matching id. 
+            Models.Review? review = context.GetReviewById(reviewId);
+            //Clear the tracking of all objects to avoid double tracking
+            context.ChangeTracker.Clear();
+
+            if (review == null)
+            {
+                return Unauthorized("Review is not found in the database");
+            }
+
+            //Add photo to database (only the record)
+            ReviewPhoto photoRecord = new ReviewPhoto() { ReviewId = reviewId };
+            context.ReviewPhotos.Add(photoRecord);
+            context.SaveChanges();
+
+            //Read all files sent
+            long imagesSize = 0;
+
+            if (file.Length > 0)
+            {
+                //Check the file extention!
+                string[] allowedExtentions = { ".png", ".jpg" };
+                string extention = "";
+                if (file.FileName.LastIndexOf(".") > 0)
+                {
+                    extention = file.FileName.Substring(file.FileName.LastIndexOf(".")).ToLower();
+                }
+                if (!allowedExtentions.Where(e => e == extention).Any())
+                {
+                    //Extention is not supported
+                    return BadRequest("File sent with non supported extention");
+                }
+
+                //Build path in the web root (better to a specific folder under the web root
+                string filePath = $"{this.webHostEnvironment.WebRootPath}\\reviews\\{photoRecord.PhotoId}{extention}";
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await file.CopyToAsync(stream);
+
+                    if (IsImage(stream))
+                    {
+                        imagesSize += stream.Length;
+                    }
+                    else
+                    {
+                        //Delete the file if it is not supported!
+                        System.IO.File.Delete(filePath);
+                    }
+
+                }
+
+            }
+
+
+            review.ReviewPhotos.Add(photoRecord);
+            DTO.ReviewDTO dtoReview = new DTO.ReviewDTO(review, this.webHostEnvironment.WebRootPath);
+            return Ok(dtoReview);
+        }
         [HttpPost("UploadPostImage")]
         public async Task<IActionResult> UploadPostImageAsync(IFormFile file, [FromQuery] int posterId)
         {
@@ -382,6 +654,25 @@ namespace SkiAppServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("GetReviewImages")]
+        public IActionResult GetReviewImages(int reviewId)
+        {
+            try
+            {
+                List<Models.ReviewPhoto> photos = context.GetReviewPhotos(reviewId);
+                List<string> paths = new List<string>();
+                foreach (Models.ReviewPhoto p in photos)
+                {
+                    paths.Add(GetReviewImageVirtualPath(p.PhotoId));
+                }
+
+                return Ok(paths);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         private string GetPostImageVirtualPath(int photoID)
         {
             string virtualPath = $"/posts/{photoID}";
@@ -400,6 +691,29 @@ namespace SkiAppServer.Controllers
                 else
                 {
                     virtualPath = $"/posts/default.png";
+                }
+            }
+
+            return virtualPath;
+        }
+        private string GetReviewImageVirtualPath(int photoID)
+        {
+            string virtualPath = $"/reviews/{photoID}";
+            string path = $"{this.webHostEnvironment.WebRootPath}\\reviews\\{photoID}.png";
+            if (System.IO.File.Exists(path))
+            {
+                virtualPath += ".png";
+            }
+            else
+            {
+                path = $"{this.webHostEnvironment.WebRootPath}\\reviews\\{photoID}.jpg";
+                if (System.IO.File.Exists(path))
+                {
+                    virtualPath += ".jpg";
+                }
+                else
+                {
+                    virtualPath = $"/reviews/default.png";
                 }
             }
 
@@ -425,6 +739,30 @@ namespace SkiAppServer.Controllers
                 else
                 {
                     virtualPath = $"/posts/default.png";
+                }
+            }
+
+            return virtualPath;
+        }
+        [HttpGet("GetReviewPath")]
+        public string GetReviewPath(int photoID)
+        {
+            string virtualPath = $"{photoID}";
+            string path = $"{this.webHostEnvironment.WebRootPath}\\reviews\\{photoID}.png";
+            if (System.IO.File.Exists(path))
+            {
+                virtualPath += ".png";
+            }
+            else
+            {
+                path = $"{this.webHostEnvironment.WebRootPath}\\reviews\\{photoID}.jpg";
+                if (System.IO.File.Exists(path))
+                {
+                    virtualPath += ".jpg";
+                }
+                else
+                {
+                    virtualPath = $"/reviews/default.png";
                 }
             }
 

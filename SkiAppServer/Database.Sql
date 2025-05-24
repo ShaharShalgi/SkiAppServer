@@ -58,8 +58,9 @@
    ReviewID INT PRIMARY KEY IDENTITY,
    RecieverID INT,
    SenderID int,
-   IsPositive BIT,
+   Rating int,
    Txt NVARCHAR(150),
+   Title NVARCHAR(25),
    --Img VARBINARY(MAX),
    FOREIGN KEY (RecieverID) REFERENCES Visitors(UserID),
    FOREIGN KEY (SenderID) REFERENCES Visitors(UserID)
@@ -118,7 +119,7 @@ INSERT into TypeUser Values('Manager')
 insert into Professionals Values(1, 0, 1, 'France', 50, 'Birthday ski call it ski BD',0,0)
 insert into Tips Values('3', 'Curling', 'HOW TO CURL IN 30 MINUTES (99% WILL NOT SURVIVE) (GONE WRONG)', 'idc', 'https://www.youtube.com/embed/Jxs8Mt3M8nA')
 insert into Tips Values('4', 'Falling', 'HOW TO CRACK YOUR BUTT', 'BOOM SHAKALAK BOOM BOOM', 'https://www.youtube.com/embed/dQw4w9WgXcQ')
-insert into REVIEWS Values(1, 2, 1, 'BEST COACH EVER!!!!111!')
+insert into REVIEWS Values(1, 2, 1,'LOVED IT', 'BEST COACH EVER!!!!111!')
 insert into Condition Values('Pending')
 insert into Condition Values('Approved')
 insert into Condition Values('Declined')
@@ -129,7 +130,7 @@ SELECT * from Professionals
 select * from visitors
 Select * from Tips
 
-select * from TypeUser
+select * from Reviews
 
 
 

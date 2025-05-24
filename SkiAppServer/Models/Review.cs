@@ -19,10 +19,13 @@ public partial class Review
     [Column("SenderID")]
     public int? SenderId { get; set; }
 
-    public bool? IsPositive { get; set; }
+    public int? Rating { get; set; }
 
     [StringLength(150)]
     public string? Txt { get; set; }
+
+    [StringLength(25)]
+    public string? Title { get; set; }
 
     [ForeignKey("RecieverId")]
     [InverseProperty("ReviewRecievers")]
