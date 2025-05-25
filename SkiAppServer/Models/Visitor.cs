@@ -25,6 +25,8 @@ public partial class Visitor
 
     public bool? IsPro { get; set; }
 
+    public bool? IsAdmin { get; set; }
+
     [InverseProperty("User")]
     public virtual ICollection<PostPhoto> PostPhotos { get; set; } = new List<PostPhoto>();
 

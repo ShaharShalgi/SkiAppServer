@@ -15,6 +15,12 @@ namespace SkiAppServer.Models
         {
             return this.Visitors.Where(u => u.UserId == Id).FirstOrDefault();
         }
+        public bool? upload(int senderId, int reciverId)
+        {
+            if (this.Reviews.Where(u => u.SenderId == senderId && u.RecieverId == reciverId).FirstOrDefault() != null)
+                return true;
+            return false;
+        }
         public Review? GetReviewById(int Id)
         {
             return this.Reviews.Where(u => u.ReviewId == Id).FirstOrDefault();

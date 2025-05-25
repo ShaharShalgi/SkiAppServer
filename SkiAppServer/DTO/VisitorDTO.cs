@@ -9,6 +9,7 @@ namespace SkiAppServer.DTO
         public string? Email { get; set; } = null;
         public int UserId { get; set; }
         public bool? IsPro { get; set; } = null;
+        public bool? IsAdmin { get; set; } = null;
         public string PhotoURL { get; set; } = "";
         public List<PostPhotoDTO>?  Photos { get; set; } 
         public VisitorDTO() { }
@@ -20,6 +21,7 @@ namespace SkiAppServer.DTO
             this.Email = modelVisitor.Email;
             this.UserId = modelVisitor.UserId;
             this.IsPro = modelVisitor.IsPro;
+            this.IsAdmin = modelVisitor.IsAdmin;
        
         }
         public Models.Visitor GetModels()
@@ -31,7 +33,8 @@ namespace SkiAppServer.DTO
                 Email = this.Email,
                 Pass = this.Pass,
                 Gender = this.Gender,
-                IsPro = this.IsPro
+                IsPro = this.IsPro,
+                IsAdmin = this.IsAdmin
                 
             };
 
@@ -46,6 +49,7 @@ namespace SkiAppServer.DTO
             this.Email = modelVisitor.Email;
             this.UserId = modelVisitor.UserId;
             this.IsPro = modelVisitor.IsPro;
+            this.IsAdmin = modelVisitor.IsAdmin;
            
             this.Photos = new List<PostPhotoDTO>();
             if (modelVisitor.PostPhotos != null)

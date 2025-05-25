@@ -256,6 +256,55 @@ namespace SkiAppServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("didUpload")]
+        public IActionResult didUpload(int senderId, int recieverId)
+        {
+            try
+            {
+                bool? upload = context.upload(senderId, recieverId);
+                return Ok(upload);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("uploadTip")]
+        public IActionResult UploadTip([FromBody] Models.Tip tipModel)
+        {
+            try
+            {
+                // Check if admin is logged in
+                string? user = HttpContext.Session.GetString("loggedInUser");
+                if (user == null || user == "")
+                {
+                    return Unauthorized();
+                }
+
+                // Validate the tip data
+                if (string.IsNullOrWhiteSpace(tipModel.Title) ||
+                    string.IsNullOrWhiteSpace(tipModel.Info) ||
+                    string.IsNullOrWhiteSpace(tipModel.Topic))
+                {
+                    return BadRequest("Title, Info, and Topic are required fields");
+                }
+
+                if (tipModel.Difficulty < 1 || tipModel.Difficulty > 5)
+                {
+                    return BadRequest("Difficulty must be between 1 and 5");
+                }
+
+                // Add the tip to the database
+                context.Tips.Add(tipModel);
+                context.SaveChanges();
+
+                return Ok(new { message = "Tip uploaded successfully", tipId = tipModel.TipId });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet("getUser")]
         public IActionResult GetUser(int Id)
         {

@@ -11,6 +11,7 @@
 
 
         public string? Loc { get; set; }
+        public string? Link { get; set; }
 
         public double? Price { get; set; }
        
@@ -31,6 +32,7 @@
             this.Loc = modelProfessional.Loc;
             this.Price = modelProfessional.Price;
             this.Txt = modelProfessional.Txt;
+            this.Link = modelProfessional.Link;
             this.RaterNum = modelProfessional.RaterNum;
             this.Post = modelProfessional.Post;
         }
@@ -44,6 +46,7 @@
                 Loc = this.Loc,
                 Price = this.Price,
                 Txt = this.Txt,
+                Link = this.Link,
                 RaterNum = this.RaterNum,
                 Post = this.Post
 

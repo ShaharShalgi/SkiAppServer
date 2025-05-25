@@ -20,7 +20,8 @@
     Pass NVARCHAR(25),
     Gender NVARCHAR(15),
     Email NVARCHAR(50),
-    IsPro BIT
+    IsPro BIT,
+    IsAdmin BIT
     );
 
     --טבלת סוגים
@@ -37,7 +38,8 @@
     Price FLOAT,
     Txt NVARCHAR(300),
     RaterNum INT,
-    Post BIT
+    Post BIT,
+    Link NVARCHAR(150)
     --Img VARBINARY(MAX),
     FOREIGN KEY (UserID) REFERENCES Visitors(UserId),
     FOREIGN KEY (TypeID) REFERENCES TypeUser(TypeID)
@@ -112,18 +114,17 @@ Go
 -- Add the user to the db_owner role to grant admin privileges
 ALTER ROLE db_owner ADD MEMBER [AdminUser];
 Go
-INSERT INTO Visitors Values('Shahar Shalgi', 'shalgon202', 'Male', 'shshalgi@gmail.com', 1)
-INSERT INTO Visitors Values('Tami Freiman', 'tami123', 'Female', 'freimantami@gmail.com', 0)
+INSERT INTO Visitors Values('Shahar Shalgi', 'shalgon202', 'Male', 'shshalgi@gmail.com', 1, 1)
+INSERT INTO Visitors Values('Tami Freiman', 'tami123', 'Female', 'freimantami@gmail.com', 0, 0)
 INSERT into TypeUser Values('Coach')
 INSERT into TypeUser Values('Manager')
-insert into Professionals Values(1, 0, 1, 'France', 50, 'Birthday ski call it ski BD',0,0)
+insert into Professionals Values(1, 0, 1, 'France', 50, 'Birthday ski call it ski BD',0,0,'www.google.com')
 insert into Tips Values('3', 'Curling', 'HOW TO CURL IN 30 MINUTES (99% WILL NOT SURVIVE) (GONE WRONG)', 'idc', 'https://www.youtube.com/embed/Jxs8Mt3M8nA')
 insert into Tips Values('4', 'Falling', 'HOW TO CRACK YOUR BUTT', 'BOOM SHAKALAK BOOM BOOM', 'https://www.youtube.com/embed/dQw4w9WgXcQ')
-insert into REVIEWS Values(1, 2, 1,'LOVED IT', 'BEST COACH EVER!!!!111!')
 insert into Condition Values('Pending')
 insert into Condition Values('Approved')
 insert into Condition Values('Declined')
-INSERT INTO Visitors Values('1', '1', 'Male', 'shshalgi@gmail.com', 0)
+INSERT INTO Visitors Values('1', '1', 'Male', 'shacharshalgi@gmail.com', 0, 0)
 
 insert into Requests Values(2, 1, 2)
 SELECT * from Professionals

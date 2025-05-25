@@ -29,6 +29,9 @@ public partial class Professional
 
     public bool? Post { get; set; }
 
+    [StringLength(150)]
+    public string? Link { get; set; }
+
     [ForeignKey("TypeId")]
     [InverseProperty("Professionals")]
     public virtual TypeUser? Type { get; set; }
