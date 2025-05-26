@@ -34,12 +34,6 @@ public partial class Visitor
     public virtual Professional? Professional { get; set; }
 
     [InverseProperty("Reciever")]
-    public virtual ICollection<Request> RequestRecievers { get; set; } = new List<Request>();
-
-    [InverseProperty("Sender")]
-    public virtual ICollection<Request> RequestSenders { get; set; } = new List<Request>();
-
-    [InverseProperty("Reciever")]
     public virtual ICollection<Review> ReviewRecievers { get; set; } = new List<Review>();
 
     [InverseProperty("Sender")]

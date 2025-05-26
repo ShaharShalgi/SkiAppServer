@@ -41,6 +41,11 @@ namespace SkiAppServer.Models
         {
             return this.Reviews.Where(u => u.RecieverId == Id).ToList();
         }
+        public List<Review>? GetReviewsByuserID(int Id)
+        {
+            return this.Reviews.Where(u => u.SenderId == Id).ToList();
+        }
+
 
         public List<Visitor>? GetAllVisitors()
         {
@@ -86,5 +91,88 @@ namespace SkiAppServer.Models
         {
             return this.Professionals.Where(u => u.Post == true && u.TypeId == 1).OrderBy(u => u.Rating).ToList();
         }
+        public bool ToggleUserAdmin(int userId, bool isAdmin)
+        {
+            try
+            {
+                Visitor? user = this.Visitors.FirstOrDefault(u => u.UserId == userId);
+                if (user == null)
+                {
+                    return false;
+                }
+
+                user.IsAdmin = isAdmin;
+                this.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool DeleteUserById(int userId)
+        {
+            try
+            {
+                Visitor? user = this.Visitors.FirstOrDefault(u => u.UserId == userId);
+                Professional? pro = this.Professionals.FirstOrDefault(u => u.UserId == userId);
+                if (user == null)
+                {
+                    return false;
+                }
+                List<Review>? reviews = this.Reviews.Where(u => u.SenderId == userId).ToList();
+                List<Review>? reviews2 = this.Reviews.Where(u => u.RecieverId== userId).ToList();
+                List<PostPhoto>? postPhotos = this.PostPhotos.Where(u => u.UserId== userId).ToList();
+                List<ReviewPhoto>? reviewPhotos = new List<ReviewPhoto>();
+
+                this.Visitors.Remove(user);
+                if (pro != null)
+                {
+                    this.Professionals.Remove(pro);
+                }
+                if (reviews != null)
+                {
+                    foreach (Review r in reviews)
+                    {
+                        List<ReviewPhoto>? temp = GetReviewPhotos(r.ReviewId);
+                        foreach(ReviewPhoto p in temp) 
+                        { 
+                            reviewPhotos.Add(p);
+                        }
+                       
+                        this.Reviews.Remove(r);
+                    }
+                }
+                if (reviews2 != null)
+                {
+                    foreach (Review r in reviews2)
+                    {
+                        this.Reviews.Remove(r);
+                    }
+                }
+                if (postPhotos != null)
+                {
+                    foreach (PostPhoto p in postPhotos)
+                    {
+                        this.PostPhotos.Remove(p);
+                    }
+                }
+                if (reviewPhotos != null)
+                {
+                    foreach (ReviewPhoto p in reviewPhotos)
+                    {
+                        this.ReviewPhotos.Remove(p);
+                    }
+                }
+                this.SaveChanges();
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
     }
 }

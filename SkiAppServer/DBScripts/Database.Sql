@@ -68,25 +68,7 @@
    FOREIGN KEY (SenderID) REFERENCES Visitors(UserID)
    );
 
-   --טבלת סטטוסים
-   CREATE TABLE Condition(
-   StatusID INT PRIMARY KEY IDENTITY,
-   StatusName NVARCHAR(10),
-   
-   );
-
-
-   --טבלת בקשות
-   CREATE TABLE Requests (
-   RequestID INT PRIMARY KEY IDENTITY,
-   SenderID INT,
-   RecieverID INT,
-   StatusID INT, 
-   FOREIGN KEY (RecieverID) REFERENCES Visitors(UserID),
-   FOREIGN KEY (SenderID) REFERENCES Visitors(UserID),
-   FOREIGN KEY (StatusID) REFERENCES Condition(StatusID)
-
-   );
+  
    CREATE TABLE PostPhotos (
     PhotoId INT PRIMARY KEY identity,        -- מפתח ראשי
     UserID INT,
@@ -121,16 +103,13 @@ INSERT into TypeUser Values('Manager')
 insert into Professionals Values(1, 0, 1, 'France', 50, 'Birthday ski call it ski BD',0,0,'www.google.com')
 insert into Tips Values('3', 'Curling', 'HOW TO CURL IN 30 MINUTES (99% WILL NOT SURVIVE) (GONE WRONG)', 'idc', 'https://www.youtube.com/embed/Jxs8Mt3M8nA')
 insert into Tips Values('4', 'Falling', 'HOW TO CRACK YOUR BUTT', 'BOOM SHAKALAK BOOM BOOM', 'https://www.youtube.com/embed/dQw4w9WgXcQ')
-insert into Condition Values('Pending')
-insert into Condition Values('Approved')
-insert into Condition Values('Declined')
 INSERT INTO Visitors Values('1', '1', 'Male', 'shacharshalgi@gmail.com', 0, 0)
 
-insert into Requests Values(2, 1, 2)
+
 SELECT * from Professionals
 select * from visitors
 Select * from Tips
-
+Select * from TypeUser
 select * from Reviews
 
 
