@@ -111,7 +111,7 @@ namespace SkiAppServer.Controllers
             }
 
         }
-        [HttpPost("login")]
+        [HttpPost("userlogin")]
         public IActionResult Login([FromBody] DTO.VisitorDTO loginDto)
         {
             try
@@ -122,13 +122,13 @@ namespace SkiAppServer.Controllers
                 Models.Visitor? modelsUser = context.GetVisitor(loginDto.Pass);
 
                 //Check if user exist for this password match, if not return Access Denied (Error 403) 
-                if (modelsUser == null || modelsUser.Pass != loginDto.Pass)
+                if (modelsUser == null || modelsUser.Pass != loginDto.Pass || modelsUser.Email != loginDto.Email)
                 {
                     return Unauthorized();
                 }
 
                 //Login suceed! now mark login in session memory!
-                HttpContext.Session.SetString("loggedInUser", modelsUser.Username);
+                HttpContext.Session.SetString("loggedInUser", modelsUser.Email);
 
                 DTO.VisitorDTO dtoUser = new DTO.VisitorDTO(modelsUser);
 
@@ -219,6 +219,7 @@ namespace SkiAppServer.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        
         [HttpGet("getAllPostPhotos")]
         public IActionResult GetAllPostPhotos()
         {
@@ -992,21 +993,9 @@ namespace SkiAppServer.Controllers
                 string databaseName = context.Database.GetDbConnection().Database;
                 //Build the restore command
                 string command = $@"
-               USE master;
-               DECLARE @latestBackupSet INT;
-               SELECT TOP 1 @latestBackupSet = position
-               FROM msdb.dbo.backupset
-               WHERE database_name = '{databaseName}'
-               AND backup_set_id IN (
-                     SELECT backup_set_id
-                     FROM msdb.dbo.backupmediafamily
-                     WHERE physical_device_name = '{path}'
-                 )
-               ORDER BY backup_start_date DESC;
+                USE master;
                 ALTER DATABASE {databaseName} SET SINGLE_USER WITH ROLLBACK IMMEDIATE;
-                RESTORE DATABASE {databaseName} FROM DISK = '{path}' 
-                WITH FILE=@latestBackupSet,
-                REPLACE;
+                RESTORE DATABASE {databaseName} FROM DISK = '{path}' WITH REPLACE;
                 ALTER DATABASE {databaseName} SET MULTI_USER;";
 
                 //Create a connection to the database

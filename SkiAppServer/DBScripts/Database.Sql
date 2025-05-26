@@ -101,8 +101,6 @@ INSERT INTO Visitors Values('Tami Freiman', 'tami123', 'Female', 'freimantami@gm
 INSERT into TypeUser Values('Coach')
 INSERT into TypeUser Values('Manager')
 insert into Professionals Values(1, 0, 1, 'France', 50, 'Birthday ski call it ski BD',0,0,'www.google.com')
-insert into Tips Values('3', 'Curling', 'HOW TO CURL IN 30 MINUTES (99% WILL NOT SURVIVE) (GONE WRONG)', 'idc', 'https://www.youtube.com/embed/Jxs8Mt3M8nA')
-insert into Tips Values('4', 'Falling', 'HOW TO CRACK YOUR BUTT', 'BOOM SHAKALAK BOOM BOOM', 'https://www.youtube.com/embed/dQw4w9WgXcQ')
 INSERT INTO Visitors Values('1', '1', 'Male', 'shacharshalgi@gmail.com', 0, 0)
 
 
@@ -112,7 +110,23 @@ Select * from Tips
 Select * from TypeUser
 select * from Reviews
 
+INSERT INTO Visitors Values('coach', 'coach123', 'Male', 'coach@gmail.com', 1, 0)
+insert into Professionals Values(7, 0, 1, 'Norway', 32, 'Greatest coach in the world',0,0,'www.google.com')
 
+CREATE LOGIN [AdminLogin] WITH PASSWORD = 'shalgon101';
+Go
+
+-- Create a user in the DB database for the login
+CREATE USER [AdminUser] FOR LOGIN [AdminLogin];
+Go
+
+-- Add the user to the db_owner role to grant admin privileges
+ALTER ROLE db_owner ADD MEMBER [AdminUser];
+Go
+
+--so user can restore the DB!
+ALTER SERVER ROLE sysadmin ADD MEMBER [AdminUser];
+Go
 
 --EF Code
 /*

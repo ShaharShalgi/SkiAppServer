@@ -51,6 +51,7 @@ namespace SkiAppServer.Models
         {
             return this.Visitors.ToList();
         }
+       
         public List<PostPhoto>? GetAllPostPhotos()
         {
             return this.PostPhotos.ToList();
