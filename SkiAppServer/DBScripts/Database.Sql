@@ -105,6 +105,7 @@ INSERT INTO Visitors Values('1', '1', 'Male', 'shacharshalgi@gmail.com', 0, 0)
 
 
 SELECT * from Professionals
+SELECT * from PostPhotos
 select * from visitors
 Select * from Tips
 Select * from TypeUser

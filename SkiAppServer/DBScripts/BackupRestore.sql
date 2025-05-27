@@ -26,3 +26,6 @@ RESTORE DATABASE Ski_DB FROM DISK = 'C:\Users\User\source\repos\ShaharShalgi\Ski
   MOVE 'Ski_DB' TO 'C:\Users\User\Ski_DB.mdf', --להחליף לנתיב שנמצא על המחשב שלך
   MOVE 'Ski_DB_log' TO 'C:\Users\User\Ski_DB_log.ldf';
 ALTER DATABASE Ski_DB SET MULTI_USER;
+
+
+ALTER LOGIN [AdminLogin] WITH PASSWORD = 'shalgon101'
