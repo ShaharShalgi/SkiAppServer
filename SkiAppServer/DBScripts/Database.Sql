@@ -110,6 +110,7 @@ select * from visitors
 Select * from Tips
 Select * from TypeUser
 select * from Reviews
+select * from ReviewPhotos
 
 INSERT INTO Visitors Values('coach', 'coach123', 'Male', 'coach@gmail.com', 1, 0)
 insert into Professionals Values(7, 0, 1, 'Norway', 32, 'Greatest coach in the world',0,0,'www.google.com')

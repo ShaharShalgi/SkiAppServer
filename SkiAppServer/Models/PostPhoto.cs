@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SkiAppServer.Models;
 
-public partial class PostPhoto
+public partial class ח
 {
     [Key]
     public int PhotoId { get; set; }

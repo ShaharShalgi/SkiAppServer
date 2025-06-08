@@ -52,7 +52,7 @@ namespace SkiAppServer.Models
             return this.Visitors.ToList();
         }
        
-        public List<PostPhoto>? GetAllPostPhotos()
+        public List<ח>? GetAllPostPhotos()
         {
             return this.PostPhotos.ToList();
         }
@@ -64,7 +64,7 @@ namespace SkiAppServer.Models
         {
             return this.Tips.Where(u => u.Difficulty == diff).ToList();
         }
-        public List<PostPhoto>? GetPostPhotos(int posterId)
+        public List<ח>? GetPostPhotos(int posterId)
         {
             return this.PostPhotos.Where(u => u.UserId == posterId).ToList();
         }
@@ -116,58 +116,85 @@ namespace SkiAppServer.Models
         {
             try
             {
-                Visitor? user = this.Visitors.FirstOrDefault(u => u.UserId == userId);
-                Professional? pro = this.Professionals.FirstOrDefault(u => u.UserId == userId);
-                if (user == null)
-                {
-                    return false;
-                }
-                List<Review>? reviews = this.Reviews.Where(u => u.SenderId == userId).ToList();
-                List<Review>? reviews2 = this.Reviews.Where(u => u.RecieverId== userId).ToList();
-                List<PostPhoto>? postPhotos = this.PostPhotos.Where(u => u.UserId== userId).ToList();
-                List<ReviewPhoto>? reviewPhotos = new List<ReviewPhoto>();
+                // Use a transaction to ensure all operations succeed or fail together
+                using var transaction = this.Database.BeginTransaction();
 
-                this.Visitors.Remove(user);
-                if (pro != null)
+                try
                 {
-                    this.Professionals.Remove(pro);
-                }
-                if (reviews != null)
-                {
-                    foreach (Review r in reviews)
+                    Visitor? user = this.Visitors.FirstOrDefault(u => u.UserId == userId);
+                    if (user == null)
                     {
-                        List<ReviewPhoto>? temp = GetReviewPhotos(r.ReviewId);
-                        foreach(ReviewPhoto p in temp) 
-                        { 
-                            reviewPhotos.Add(p);
-                        }
-                       
-                        this.Reviews.Remove(r);
+                        return false;
                     }
-                }
-                if (reviews2 != null)
-                {
-                    foreach (Review r in reviews2)
+
+                    // Get all related data first
+                    Professional? pro = this.Professionals.FirstOrDefault(u => u.UserId == userId);
+                    List<Review> reviewsSent = this.Reviews.Where(u => u.SenderId == userId).ToList();
+                    List<Review> reviewsReceived = this.Reviews.Where(u => u.RecieverId == userId).ToList();
+                    List<ח> postPhotos = this.PostPhotos.Where(u => u.UserId == userId).ToList();
+
+                    List<ReviewPhoto> reviewPhotos = new List<ReviewPhoto>();
+
+                    // Collect all review photos from sent reviews
+                    foreach (Review r in reviewsSent)
                     {
-                        this.Reviews.Remove(r);
+                        List<ReviewPhoto> temp = GetReviewPhotos(r.ReviewId);
+                        reviewPhotos.AddRange(temp);
                     }
-                }
-                if (postPhotos != null)
-                {
-                    foreach (PostPhoto p in postPhotos)
+
+                    // Collect all review photos from received reviews
+                    foreach (Review r in reviewsReceived)
                     {
-                        this.PostPhotos.Remove(p);
+                        List<ReviewPhoto> temp = GetReviewPhotos(r.ReviewId);
+                        reviewPhotos.AddRange(temp);
                     }
-                }
-                if (reviewPhotos != null)
-                {
-                    foreach (ReviewPhoto p in reviewPhotos)
+
+                    // Delete in the correct order (children first, then parents)
+
+                    // 1. Delete review photos first
+                    if (reviewPhotos.Any())
                     {
-                        this.ReviewPhotos.Remove(p);
+                        this.ReviewPhotos.RemoveRange(reviewPhotos);
                     }
+
+                    // 2. Delete post photos
+                    if (postPhotos.Any())
+                    {
+                        this.PostPhotos.RemoveRange(postPhotos);
+                    }
+
+                    // 3. Delete reviews (both sent and received)
+                    if (reviewsSent.Any())
+                    {
+                        this.Reviews.RemoveRange(reviewsSent);
+                    }
+                    if (reviewsReceived.Any())
+                    {
+                        this.Reviews.RemoveRange(reviewsReceived);
+                    }
+
+                    // 4. Delete professional record if exists
+                    if (pro != null)
+                    {
+                        this.Professionals.Remove(pro);
+                    }
+
+                    // 5. Finally delete the visitor
+                    this.Visitors.Remove(user);
+
+                    // Save all changes
+                    this.SaveChanges();
+
+                    // Commit the transaction
+                    transaction.Commit();
+                    return true;
                 }
-                this.SaveChanges();
-                return true;
+                catch
+                {
+                    // Rollback the transaction if anything fails
+                    transaction.Rollback();
+                    throw;
+                }
             }
             catch
             {

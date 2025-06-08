@@ -225,7 +225,7 @@ namespace SkiAppServer.Controllers
         {
             try
             {
-                List<Models.PostPhoto> postPhotos = context.GetAllPostPhotos();
+                List<Models.ח> postPhotos = context.GetAllPostPhotos();
                 return Ok(postPhotos);
             }
             catch (Exception ex)
@@ -669,7 +669,7 @@ namespace SkiAppServer.Controllers
             }
 
             //Add photo to database (only the record)
-            PostPhoto photoRecord = new PostPhoto() { UserId = posterId };
+            ח photoRecord = new ח() { UserId = posterId };
             context.PostPhotos.Add(photoRecord);
             context.SaveChanges();
 
@@ -727,7 +727,7 @@ namespace SkiAppServer.Controllers
 
 
                 //Create model user class
-                Models.PostPhoto modelsPost = postDTO.GetModels();
+                Models.ח modelsPost = postDTO.GetModels();
 
                 context.Remove(modelsPost).State = EntityState.Deleted;
 
@@ -748,9 +748,9 @@ namespace SkiAppServer.Controllers
         {
             try
             {
-                List<Models.PostPhoto> photos = context.GetPostPhotos(posterId);
+                List<Models.ח> photos = context.GetPostPhotos(posterId);
                 List<string> paths = new List<string>();
-                foreach(Models.PostPhoto p in photos)
+                foreach(Models.ח p in photos)
                 {
                     paths.Add(GetPostImageVirtualPath(p.PhotoId));
                 }

@@ -54,7 +54,7 @@ namespace SkiAppServer.DTO
             this.Photos = new List<PostPhotoDTO>();
             if (modelVisitor.PostPhotos != null)
             {
-                foreach (PostPhoto p in modelVisitor.PostPhotos)
+                foreach (ח p in modelVisitor.PostPhotos)
                 {
                     this.Photos.Add(new PostPhotoDTO()
                     {

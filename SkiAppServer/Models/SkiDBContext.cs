@@ -15,7 +15,7 @@ public partial class SkiDBContext : DbContext
     {
     }
 
-    public virtual DbSet<PostPhoto> PostPhotos { get; set; }
+    public virtual DbSet<ח> PostPhotos { get; set; }
 
     public virtual DbSet<Professional> Professionals { get; set; }
 
@@ -35,7 +35,7 @@ public partial class SkiDBContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<PostPhoto>(entity =>
+        modelBuilder.Entity<ח>(entity =>
         {
             entity.HasKey(e => e.PhotoId).HasName("PK__PostPhot__21B7B5E22B885F75");
 
